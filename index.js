@@ -15,9 +15,44 @@ mongoose
     // Before adding any recipes to the database, let's remove all existing ones
     return Recipe.deleteMany()
   })
+  
   .then(() => {
-    // Run your code here, after you have insured that the connection was made
+    return Recipe.create({
+      title: 'Pizza Margherita',
+      level: 'Easy Peasy',
+      ingredients: [
+        '1/2 pound homemade pizza dough',
+        '1/2 cup tomato sauce',
+        '1/4 cup fresh basil leaves',
+        '8 ounces fresh mozzarella cheese, sliced',
+        '1 tablespoon extra-virgin olive oil',
+        'Kosher salt and freshly ground black pepper, to taste',
+      ],
+      cuisine: 'Italian',
+      dishType: 'main_course',
+      image: 'https://www.acouplecooks.com/wp-content/uploads/2019/02/Pizza-Margherita-002.jpg',
+      duration: 30,
+      creator: 'Chef John',
+    }
+    
+    );
+  })
+  .then(recipe => {
+    console.log(`The recipe "${recipe.title}" has been added to the database`);
   })
   .catch(error => {
     console.error('Error connecting to the database', error);
+  });
+
+  const recipes = require('./data.json');
+
+Recipe.insertMany(recipes)
+  .then((docs) => {
+    console.log("Inserted documents:");
+    docs.forEach((doc) => {
+      console.log(doc.title);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
