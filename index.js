@@ -46,12 +46,22 @@ mongoose
 
   const recipes = require('./data.json');
 
-Recipe.insertMany(recipes)
+  
+
+ Recipe.insertMany(recipes)
   .then((docs) => {
     console.log("Inserted documents:");
     docs.forEach((doc) => {
       console.log(doc.title);
     });
+    return Recipe.findOneAndUpdate(
+      { title: "Rigatoni alla Genovese" },
+      { duration: 100 }
+    );
+  })
+  .then(() => {
+    console.log("Duration of Rigatoni alla Genovese updated successfully!");
+    mongoose.connection.close(); // Close the connection to the database
   })
   .catch((err) => {
     console.error(err);
